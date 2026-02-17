@@ -23,7 +23,7 @@ class PDF(FPDF):
             
             if os.path.exists(header_path):
                 self.image(header_path, x=10, y=8, w=190)
-                self.ln(25) 
+                self.ln(34) 
             else:
                 self.set_text_color(60, 120, 60) 
                 self.set_font('Times', 'B', 16)
@@ -146,3 +146,4 @@ if uploaded_file is not None:
         file_name=f"Recommendation_{date_str}.pdf",
         mime="application/pdf"
     )
+
