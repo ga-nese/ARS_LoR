@@ -19,7 +19,7 @@ class PDF(FPDF):
         # ONLY PRINT HEADER ON PAGE 1
         if self.page_no() == 1:
             # 1. LOGO AND UNIVERSITY HEADER
-            header_path = "C:/Users/Ganesh/Downloads/LPG/header.png"
+            header_path = "header.png"
             
             if os.path.exists(header_path):
                 self.image(header_path, x=10, y=8, w=190)
@@ -137,4 +137,5 @@ if uploaded_file is not None:
         data=pdf_output,
         file_name=f"Recommendation_{date_str}.pdf",
         mime="application/pdf"
+
     )
