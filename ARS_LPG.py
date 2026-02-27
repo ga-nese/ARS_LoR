@@ -131,7 +131,7 @@ if uploaded_file is not None:
     pdf.set_xy(10, y_pos) 
     pdf.cell(0, 5, 'Yours sincerely,', 0, 1, 'R')
     
-    pdf.set_xy(10, y_pos + 12) 
+    pdf.set_xy(10, y_pos + 20) 
     pdf.cell(0, 5, 'Dr. Archana Raghavan Sathyan', 0, 1, 'R')
 
     # 4. Output (Updated to handle encoding errors gracefully)
@@ -146,6 +146,7 @@ if uploaded_file is not None:
         file_name=f"Recommendation_{date_str}.pdf",
         mime="application/pdf"
     )
+
 
 
 
