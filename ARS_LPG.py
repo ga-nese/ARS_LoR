@@ -22,7 +22,7 @@ class PDF(FPDF):
             header_path = "header.png" 
             
             if os.path.exists(header_path):
-                self.image(header_path, x=10, y=8, w=190)
+                self.image(header_path, x=10, y=8, w=210)
                 self.ln(34) 
             else:
                 self.set_text_color(60, 120, 60) 
@@ -40,7 +40,7 @@ class PDF(FPDF):
             
             self.set_font('Times', 'I', 11)
             self.set_xy(right_margin_start, self.get_y())
-            self.cell(0, 5, 'DAAD Student Ambassador', 0, 1, 'R')
+            self.cell(0, 5, 'DAAD Research Ambassador', 0, 1, 'R')
             
             self.set_xy(right_margin_start, self.get_y())
             self.cell(0, 5, 'Assistant Professor', 0, 1, 'R')
@@ -146,4 +146,5 @@ if uploaded_file is not None:
         file_name=f"Recommendation_{date_str}.pdf",
         mime="application/pdf"
     )
+
 
