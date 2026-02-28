@@ -47,6 +47,9 @@ class PDF(FPDF):
             
             self.set_xy(right_margin_start, self.get_y())
             self.cell(0, 5, 'Department of Agricultural Extension Education', 0, 1, 'R')
+
+            self.set_xy(right_margin_start, self.get_y())
+            self.cell(0, 5, 'Email: archana.rs@kau.in', 0, 1, 'R')
             
             self.ln(2) 
         else:
@@ -146,6 +149,7 @@ if uploaded_file is not None:
         file_name=f"Recommendation_{date_str}.pdf",
         mime="application/pdf"
     )
+
 
 
 
