@@ -110,7 +110,7 @@ if uploaded_file is not None:
     for para in full_text:
         if para.strip(): 
             pdf.multi_cell(0, 5, para)
-            pdf.ln(1) 
+            pdf.ln(2) 
             
     # 3. Dynamic Footer Section
     pdf.ln(5) 
@@ -149,6 +149,7 @@ if uploaded_file is not None:
         file_name=f"Recommendation_{date_str}.pdf",
         mime="application/pdf"
     )
+
 
 
 
