@@ -2,6 +2,7 @@ import streamlit as st
 from fpdf import FPDF
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.shared import Inches  # <-- NEW IMPORT ADDED HERE
 from io import BytesIO
 import datetime
 import os
@@ -135,10 +136,19 @@ if uploaded_file is not None:
     # ---------------------------------------------------------
     out_doc = Document()
     
-    # Text Header
-    h1 = out_doc.add_paragraph("KERALA AGRICULTURAL UNIVERSITY")
-    h1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    h1.runs[0].bold = True
+    # --- NEW: Image Header Logic for Word ---
+    header_path = "header.png"
+    if os.path.exists(header_path):
+        p_img = out_doc.add_paragraph()
+        p_img.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        r_img = p_img.add_run()
+        # Insert the image and scale it to fit standard Word margins
+        r_img.add_picture(header_path, width=Inches(6.0)) 
+    else:
+        # Fallback Text Header if image is missing
+        h1 = out_doc.add_paragraph("KERALA AGRICULTURAL UNIVERSITY")
+        h1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        h1.runs[0].bold = True
 
     # Professor Details
     prof_details = [
@@ -188,7 +198,6 @@ if uploaded_file is not None:
     
     file_prefix = "Recommendation" if is_lor == "Yes" else "Letter"
     
-    # Use columns to place buttons side by side
     col1, col2 = st.columns(2)
     
     with col1:
