@@ -7,7 +7,7 @@ import os
 # --- CONFIGURE THE PAGE ---
 st.set_page_config(page_title="ARS LoR_LP", layout="centered")
 
-st.title("ARS LoR LetterPad Plugin")
+st.title("ARS LetterPad Plugin")
 st.markdown("""
 Upload a **Word Document (.docx)** containing the body of the letter. 
 The app will generate a PDF on the official letterhead.
@@ -63,6 +63,9 @@ class PDF(FPDF):
 
 # --- MAIN APP LOGIC ---
 
+# --- NEW: Radio button to ask the user the type of letter ---
+is_lor = st.radio("Is this a recommendation letter?", options=["Yes", "No"])
+
 uploaded_file = st.file_uploader("Choose your Word file", type="docx")
 
 if uploaded_file is not None:
@@ -70,7 +73,7 @@ if uploaded_file is not None:
     doc = Document(uploaded_file)
     full_text = []
     
-    # --- NEW: TEXT CLEANING FUNCTION ---
+    # --- TEXT CLEANING FUNCTION ---
     # This replaces fancy Word characters with basic ones to prevent crashes
     def clean_text(text):
         replacements = {
@@ -97,11 +100,15 @@ if uploaded_file is not None:
     pdf.add_page()
     pdf.set_auto_page_break(auto=True, margin=15)
     
-    # Title
-    pdf.set_font('Times', 'B', 12)
-    pdf.set_text_color(0, 0, 0) 
-    pdf.cell(0, 10, 'LETTER OF RECOMMENDATION', 0, 1, 'C')
-    pdf.ln(2) 
+    # --- NEW: Conditionally add the title based on radio button ---
+    if is_lor == "Yes":
+        pdf.set_font('Times', 'B', 12)
+        pdf.set_text_color(0, 0, 0) 
+        pdf.cell(0, 10, 'LETTER OF RECOMMENDATION', 0, 1, 'C')
+        pdf.ln(2) 
+    else:
+        # Just add some blank space so the text doesn't hit the header
+        pdf.ln(12) 
     
     # Body Text
     pdf.set_font('Times', '', 11)
@@ -137,22 +144,18 @@ if uploaded_file is not None:
     pdf.set_xy(10, y_pos + 20) 
     pdf.cell(0, 5, 'Dr. Archana Raghavan Sathyan', 0, 1, 'R')
 
-    # 4. Output (Updated to handle encoding errors gracefully)
+    # 4. Output
     # We use 'latin-1' here because that is what FPDF uses internally.
     pdf_output = pdf.output(dest='S').encode('latin-1', 'ignore') 
     
     st.success("PDF Generated Successfully!")
     
+    # Dynamically change the filename based on the selection
+    file_prefix = "Recommendation" if is_lor == "Yes" else "Letter"
+    
     st.download_button(
         label="Download Final PDF",
         data=pdf_output,
-        file_name=f"Recommendation_{date_str}.pdf",
+        file_name=f"{file_prefix}_{date_str}.pdf",
         mime="application/pdf"
     )
-
-
-
-
-
-
-
